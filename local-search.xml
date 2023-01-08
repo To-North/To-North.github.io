@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  
+  
+  
+  <entry>
+    <title>C++分文件编写遇到的坑</title>
+    <link href="/2022/10/25/C-%E5%88%86%E6%96%87%E4%BB%B6%E7%BC%96%E5%86%99%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91/"/>
+    <url>/2022/10/25/C-%E5%88%86%E6%96%87%E4%BB%B6%E7%BC%96%E5%86%99%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91/</url>
+    
+    <content type="html"><![CDATA[<h3 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h3><p>​今天尝试写一下C++的分文件编写，结果用Dev编译老是出错，百度也没百度出来啥结果</p><h3 id="解决："><a href="#解决：" class="headerlink" title="解决："></a>解决：</h3><p>请教浩哥说我函数头文件有问题，如图：</p><p><img src="D:\blog\source\image\C++02.png"></p><p>浩哥让我改成这样：</p><p><img src="D:\blog\source\image\C++03.png" alt="image-20221025211154283"></p><h3 id="原因："><a href="#原因：" class="headerlink" title="原因："></a>原因：</h3><p>​浩哥说防止头文件重复调用，去百度了下大概是说：一个头文件在同一个cpp文件中被include多次，造成重复编译，这种错误常常是由于include嵌套引起的。（我这也没多次include啊，焯）</p><p>然后修改完之后，Dev还是编译不过，最终还是g++编译过的~ ~</p><h3 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h3><ol><li><p>辣鸡Dev</p></li><li><p>g++yyds</p></li><li><pre><code class="c++">#ifndef/#define/#endif</code></pre></li></ol><p>加上总比不加好 0 0.</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>C++</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>C++</tag>
+      
+      <tag>编译</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>C++友元函数</title>
+    <link href="/2022/10/12/C-%E5%8F%8B%E5%85%83%E5%87%BD%E6%95%B0/"/>
+    <url>/2022/10/12/C-%E5%8F%8B%E5%85%83%E5%87%BD%E6%95%B0/</url>
+    
+    <content type="html"><![CDATA[<h2 id="C-友元函数"><a href="#C-友元函数" class="headerlink" title="C++友元函数"></a>C++友元函数</h2><ul><li>尽管友元函数的原型有在类的定义中出现过，但是友元函数并不是成员函数。</li><li>类的友元函数是定义在类外部，但有权访问类的所有私有（private）成员和保护（protected）成员。</li></ul><p>友元可以是一个函数，该函数被称为友元函数；友元也可以是一个类，该类被称为友元类，在这种情况下，整个类及其所有成员都是友元。</p><p>如果要声明函数为一个类的友元，需要在类定义中该函数原型前使用关键字 <strong>friend</strong></p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Box</span><br>&#123;<br>   <span class="hljs-type">double</span> width;<br><span class="hljs-keyword">public</span>:<br>   <span class="hljs-type">double</span> length;<br>   <span class="hljs-function"><span class="hljs-keyword">friend</span> <span class="hljs-type">void</span> <span class="hljs-title">printWidth</span><span class="hljs-params">( Box box )</span></span>;<br>   <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">setWidth</span><span class="hljs-params">( <span class="hljs-type">double</span> wid )</span></span>;<br>&#125;;<br></code></pre></td></tr></table></figure><p>声明类 ClassTwo 的所有成员函数作为类 ClassOne 的友元，需要在<strong>类 ClassOne 的定义中</strong>放置如下声明：</p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">friend</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ClassTwo</span>;<br></code></pre></td></tr></table></figure><h3 id="示例："><a href="#示例：" class="headerlink" title="示例："></a>示例：</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;bits\stdc++.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br>    <span class="hljs-keyword">class</span> <span class="hljs-title class_">Box</span><br>    &#123;<br>        <span class="hljs-type">double</span> width;<br>    <span class="hljs-keyword">public</span>:<br>        <span class="hljs-function"><span class="hljs-keyword">friend</span> <span class="hljs-type">void</span> <span class="hljs-title">printWidth</span><span class="hljs-params">(Box box)</span></span>;<br>        <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">setWidth</span><span class="hljs-params">(<span class="hljs-type">double</span> wid)</span></span>;<br>    &#125;;<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">Box::setWidth</span><span class="hljs-params">(<span class="hljs-type">double</span> wid)</span></span><br><span class="hljs-function">    </span>&#123;<br>        width = wid;<br>    &#125;<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">printWidth</span><span class="hljs-params">(Box box)</span></span><br><span class="hljs-function">    </span>&#123;<br>        cout &lt;&lt;<span class="hljs-string">&quot;Width of box : &quot;</span>&lt;&lt;box.width&lt;&lt;endl;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function">    </span>&#123;<br>        Box box;<br>        box.<span class="hljs-built_in">setWidth</span>(<span class="hljs-number">10.0</span>);<br>        <span class="hljs-built_in">printWidth</span>(box);<br>    <br><br>    <span class="hljs-built_in">system</span>(<span class="hljs-string">&quot;pause&quot;</span>);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>    &#125;<br><br></code></pre></td></tr></table></figure><h3 id="运行结果："><a href="#运行结果：" class="headerlink" title="运行结果："></a>运行结果：</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c++">Width of box : <span class="hljs-number">10</span><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>C++</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>友元函数</tag>
+      
+      <tag>类和对象</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Vscode编译C++遇到的那档子事儿</title>
+    <link href="/2022/10/08/Vscode%E7%BC%96%E8%AF%91C++%E9%81%87%E5%88%B0%E7%9A%84%E9%82%A3%E6%A1%A3%E5%AD%90%E4%BA%8B%E5%84%BF/"/>
+    <url>/2022/10/08/Vscode%E7%BC%96%E8%AF%91C++%E9%81%87%E5%88%B0%E7%9A%84%E9%82%A3%E6%A1%A3%E5%AD%90%E4%BA%8B%E5%84%BF/</url>
+    
+    <content type="html"><![CDATA[<h3 id="问题一：安装MingW"><a href="#问题一：安装MingW" class="headerlink" title="问题一：安装MingW"></a>问题一：安装MingW</h3><ul><li><p>如果电脑已装DevC++，<strong>则不用重新安装MingW！！！</strong>（因为devc++把mingw集成进去了，可以直接使用，直接找到路径添加环境变量就:star:）</p></li><li><p>如果未装Dev，则搜一下安装mingw的教程，跟着安装就行（<a href="https://blog.csdn.net/MacroCurtain/article/details/106097283">(52条消息) win10 解决“ ‘g++’ 不是内部或外部命令，也不是可运行的程序或批处理文件”的问题_MacroCurtain的博客-CSDN博客_g++不是内部或外部命令也不是可运行的程序</a>）</p></li></ul><h3 id="问题二：如果你在看这篇文章之前，已经安装过Mingw-fearful"><a href="#问题二：如果你在看这篇文章之前，已经安装过Mingw-fearful" class="headerlink" title="问题二：如果你在看这篇文章之前，已经安装过Mingw:fearful:"></a>问题二：如果你在看这篇文章之前，已经安装过Mingw:fearful:</h3><p>别急，还有解决办法咧:sunglasses:</p><p>我直接塞到胃里：<a href="https://blog.csdn.net/lzxtdf/article/details/83652200">(52条消息) 新安装的Dev-C++ 5.11打开后提示：D:\Dev-Cpp\MinGW64\lib32不存在。。。_lzxtdf的博客-CSDN博客_devc++库不存在</a></p><h3 id="问题三：VScode-检测到-include-错误-请更新includepath。已为此翻译单元-禁用波形曲线"><a href="#问题三：VScode-检测到-include-错误-请更新includepath。已为此翻译单元-禁用波形曲线" class="headerlink" title="问题三：VScode 检测到#include 错误,请更新includepath。已为此翻译单元 禁用波形曲线"></a>问题三：VScode 检测到#include 错误,请更新includepath。已为此翻译单元 禁用波形曲线</h3><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs jboss-cli">不做题也没思路<span class="hljs-string">.jpg</span><br></code></pre></td></tr></table></figure><p><img src="https://img-blog.csdnimg.cn/20210411153225988.png#pic_center" alt="你猜"></p><p>话不多说，直接甩链接：<a href="https://blog.csdn.net/weixin_55710926/article/details/115600738">(54条消息) VScode 检测到#include 错误,请更新includepath。已为此翻译单元 禁用波形曲线_侯白丁的博客-CSDN博客_检测到include错误,请更新includepath</a></p><p>亲测有用:smirk:</p><h3 id="问题四：配置C-在VSCode中"><a href="#问题四：配置C-在VSCode中" class="headerlink" title="问题四：配置C++在VSCode中"></a>问题四：配置C++在VSCode中</h3><p> 具体咋报错记不清了，反正是vscode配置的问题，应该都会遇到</p><p>啪~~我甩<a href="https://developer.aliyun.com/article/871930#slide-6">【C++】VSCode配置C++环境（详细教程）-阿里云开发者社区 (aliyun.com)</a></p><h3 id="问题五：终端进程启动失败-shell-可执行文件“D-3D-C-g-”的路径不存在。"><a href="#问题五：终端进程启动失败-shell-可执行文件“D-3D-C-g-”的路径不存在。" class="headerlink" title="问题五：终端进程启动失败: shell 可执行文件“D:\3D\C++\g++”的路径不存在。"></a>问题五：终端进程启动失败: shell 可执行文件“D:\3D\C++\g++”的路径不存在。</h3><p>这个应该属于vscode启动终端失败（其实应该就是cmd那个黑乎乎的窗口）</p><p>先甩：<a href="https://www.cnblogs.com/mingforyou/p/15118363.html">终端进程启动失败: shell 可执行文件“C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe”的路径不存在。 - 残星 - 博客园 (cnblogs.com)</a></p><ul><li>在下面加上帖子里那几行代码，然后第二行应该会报错，删了就好，然后把第4.6行的路径改成你自己的即可</li><li>对了，第四行会提示你更新了什么之类的，把shell改成profiles就行，文件里可能会有波浪线waring，不用管</li></ul><h3 id="问题六：没问题喽-，我大概就遇到折磨多坑"><a href="#问题六：没问题喽-，我大概就遇到折磨多坑" class="headerlink" title="问题六：没问题喽~ ~，我大概就遇到折磨多坑"></a>问题六：没问题喽~ ~，我大概就遇到折磨多坑</h3><p>啥:frowning:，你的还是不行:fire::fire::fire::fire::fire::fire:</p><p>那你继续<code>search</code>:sunny:</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>C++</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>vscode</tag>
+      
+      <tag>C++编译</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>lambda函数</title>
+    <link href="/2022/09/11/lambda%E5%87%BD%E6%95%B0/"/>
+    <url>/2022/09/11/lambda%E5%87%BD%E6%95%B0/</url>
+    
+    <content type="html"><![CDATA[<h2 id="Python-Lambda"><a href="#Python-Lambda" class="headerlink" title="Python Lambda"></a>Python Lambda</h2><p><strong>ambda 函数是一种小的匿名函数。</strong></p><p><strong>lambda 函数可接受任意数量的参数，但只能有一个表达式。</strong></p><hr><h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">lambda</span> arguments : expression<br></code></pre></td></tr></table></figure><p>执行表达式并返回结果：</p><h4 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h4><p>一个 lambda 函数，它把作为参数传入的数字加 10，然后打印结果：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">x = <span class="hljs-keyword">lambda</span> a : a + <span class="hljs-number">10</span><br><span class="hljs-built_in">print</span>(x(<span class="hljs-number">7</span>))<br></code></pre></td></tr></table></figure><p><img src="D:\blog\source\image\lambda1.png" alt="17"></p><p>lambda 函数可接受任意数量的参数：</p><h4 id="示例2"><a href="#示例2" class="headerlink" title="示例2"></a>示例2</h4><p>一个 lambda 函数，它把参数 a 与参数 b 相乘并打印结果：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">x = <span class="hljs-keyword">lambda</span> a, b : a * b<br><span class="hljs-built_in">print</span>(x(<span class="hljs-number">2</span>, <span class="hljs-number">5</span>))<br></code></pre></td></tr></table></figure><p><img src="D:\blog\source\image\lambda2.png" alt="10"></p><hr><h2 id="为何使用Lambda函数？"><a href="#为何使用Lambda函数？" class="headerlink" title="为何使用Lambda函数？"></a>为何使用Lambda函数？</h2><p>当您把 lambda 用作另一个函数内的匿名函数时，会更好地展现 lambda 的强大能力。</p><p>假设您有一个带一个参数的函数定义，并且该参数将乘以未知数字：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">myfunc</span>(<span class="hljs-params">n</span>):<br>  <span class="hljs-keyword">return</span> <span class="hljs-keyword">lambda</span> a : a * n<br></code></pre></td></tr></table></figure><p>使用该函数定义来创建一个总是使所发送数字加倍的函数：</p><h4 id="示例1-1"><a href="#示例1-1" class="headerlink" title="示例1"></a>示例1</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">myfunc</span>(<span class="hljs-params">n</span>):<br>  <span class="hljs-keyword">return</span> <span class="hljs-keyword">lambda</span> a : a * n<br><br>mydoubler = myfunc(<span class="hljs-number">2</span>)<br><br><span class="hljs-built_in">print</span>(mydoubler(<span class="hljs-number">11</span>))<br></code></pre></td></tr></table></figure><p><img src="D:\blog\source\image\lambda3.png" alt="22"></p><p>或者，使用相同的函数定义来创建一个总是使您发送的数字增加三倍的函数：</p><h4 id="示例2-1"><a href="#示例2-1" class="headerlink" title="示例2"></a>示例2</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">myfunc</span>(<span class="hljs-params">n</span>):<br>  <span class="hljs-keyword">return</span> <span class="hljs-keyword">lambda</span> a : a * n<br><br>mytripler = myfunc(<span class="hljs-number">3</span>)<br><br><span class="hljs-built_in">print</span>(mytripler(<span class="hljs-number">11</span>))<br></code></pre></td></tr></table></figure><p><img src="D:\blog\source\image\lambda4.png" alt="33"></p><p>或者，在同一程序中使用相同的函数定义来生成两个函数：</p><h4 id="示例3"><a href="#示例3" class="headerlink" title="示例3"></a>示例3</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">myfunc</span>(<span class="hljs-params">n</span>):<br>  <span class="hljs-keyword">return</span> <span class="hljs-keyword">lambda</span> a : a * n<br><br>mydoubler = myfunc(<span class="hljs-number">2</span>)<br>mytripler = myfunc(<span class="hljs-number">3</span>)<br><br><span class="hljs-built_in">print</span>(mydoubler(<span class="hljs-number">11</span>)) <br><span class="hljs-built_in">print</span>(mytripler(<span class="hljs-number">11</span>))<br></code></pre></td></tr></table></figure><p><img src="D:\blog\source\image\lambda5.png" alt="22 33"></p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>lambda函数</tag>
+      
+      <tag>匿名函数</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>python应该知道的123</title>
+    <link href="/2022/09/10/python%E5%BA%94%E8%AF%A5%E7%9F%A5%E9%81%93%E7%9A%84123/"/>
+    <url>/2022/09/10/python%E5%BA%94%E8%AF%A5%E7%9F%A5%E9%81%93%E7%9A%84123/</url>
+    
+    <content type="html"><![CDATA[<h2 id="缩进"><a href="#缩进" class="headerlink" title="缩进"></a>缩进</h2><p>Python 依赖缩进，使用空格来定义代码中的范围。其他编程语言通常使用花括号来实现此目的。</p><h2 id="pass-语句"><a href="#pass-语句" class="headerlink" title="pass 语句"></a>pass 语句</h2><p>if 语句不能为空，但是如果您处于某种原因写了无内容的 if 语句，请使用 pass 语句来避免错误。</p><h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><h3 id="任意参数"><a href="#任意参数" class="headerlink" title="任意参数"></a>任意参数</h3><p>如果您不知道将传递给您的函数多少个参数，请在函数定义的参数名称前添加 *。</p><p>这样，函数将接收一个参数元组，并可以相应地访问各项：</p><p>实例</p><p>如果参数数目未知，请在参数名称前添加 *：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">my_function</span>(<span class="hljs-params">*kids</span>):<br>  <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;The youngest child is &quot;</span> + kids[<span class="hljs-number">2</span>])<br><br>my_function(<span class="hljs-string">&quot;Phoebe&quot;</span>, <span class="hljs-string">&quot;Jennifer&quot;</span>, <span class="hljs-string">&quot;Rory&quot;</span>)<br></code></pre></td></tr></table></figure><h3 id="模块"><a href="#模块" class="headerlink" title="模块"></a>模块</h3><p>在使用 from 关键字导入时，请勿在引用模块中的元素时使用模块名称。示例：person1[“age”]，而不是 mymodule.person1[“age”]。</p>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>python中如何字符串和数字一起输出？</title>
+    <link href="/2022/09/09/python%E4%B8%AD%E5%A6%82%E4%BD%95%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%92%8C%E6%95%B0%E5%AD%97%E4%B8%80%E8%B5%B7%E8%BE%93%E5%87%BA%EF%BC%9F/"/>
+    <url>/2022/09/09/python%E4%B8%AD%E5%A6%82%E4%BD%95%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%92%8C%E6%95%B0%E5%AD%97%E4%B8%80%E8%B5%B7%E8%BE%93%E5%87%BA%EF%BC%9F/</url>
+    
+    <content type="html"><![CDATA[<h3 id="1-格式化"><a href="#1-格式化" class="headerlink" title="1.格式化"></a>1.格式化</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">a = <span class="hljs-number">3.1415926</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;圆周率是&quot;</span>+<span class="hljs-string">&quot;%.2f&quot;</span>%a)<br></code></pre></td></tr></table></figure><p><img src="D:\blog\source\image\格式化.png" alt="格式化"></p><h3 id="2-字符串的内建方法"><a href="#2-字符串的内建方法" class="headerlink" title="2.字符串的内建方法"></a>2.字符串的内建方法</h3><p>我们可以使用 <code>format()</code> 方法组合字符串和数字！</p><p>示例一：</p><p><code>format()</code> 方法接受传递的参数，格式化它们，并将它们放在占位符 <code>&#123;&#125;</code> 所在的字符串中：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">age = <span class="hljs-number">63</span> <br>txt = <span class="hljs-string">&quot;My name is Bill, and I am &#123;&#125;&quot;</span><br><span class="hljs-built_in">print</span>(txt.<span class="hljs-built_in">format</span>(age))<br></code></pre></td></tr></table></figure><p><img src="https://img-blog.csdnimg.cn/0770b44c12664ba6904e2c0366d08c83.png"></p><p>示例二：</p><p><code>format()</code> 方法接受不限数量的参数，并放在各自的占位符中：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">quantity = <span class="hljs-number">3</span><br>itemno = <span class="hljs-number">567</span><br>price = <span class="hljs-number">49.95</span><br>myorder = <span class="hljs-string">&quot;I want &#123;&#125; pieces of item &#123;&#125; for &#123;&#125; dollars.&quot;</span><br><span class="hljs-built_in">print</span>(myorder.<span class="hljs-built_in">format</span>(quantity, itemno, price))<br></code></pre></td></tr></table></figure><p><img src="https://img-blog.csdnimg.cn/93cf19bc3814427fbcd9b5857a200e5b.png"></p><p>示例三：</p><p>可以使用索引号 <code>&#123;0&#125;</code> 来确保参数被放在正确的占位符中：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">quantity = <span class="hljs-number">3</span><br>itemno = <span class="hljs-number">567</span><br>price = <span class="hljs-number">49.95</span><br>myorder = <span class="hljs-string">&quot;I want to pay &#123;2&#125; dollars for &#123;0&#125; pieces of item &#123;1&#125;.&quot;</span><br><span class="hljs-built_in">print</span>(myorder.<span class="hljs-built_in">format</span>(quantity, itemno, price))<br></code></pre></td></tr></table></figure><p><img src="https://img-blog.csdnimg.cn/4e8db01fd4a64691aee200efeafe5b64.png"></p><p>示例四：</p><p>在占位符内，可以添加格式化类型以格式化结果：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">txt = <span class="hljs-string">&quot;For only &#123;price:.2f&#125; dollars!&quot;</span><br><span class="hljs-built_in">print</span>(txt.<span class="hljs-built_in">format</span>(price = <span class="hljs-number">49</span>))<br></code></pre></td></tr></table></figure><p><img src="https://img-blog.csdnimg.cn/34a165300de841089f392a66e63b6654.png"></p><p>可以使用命名索引 {price}、编号索引{0}、甚至空的占位符 {} 来标识占位符。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python">txt1 = <span class="hljs-string">&quot;My name is &#123;fname&#125;, I&#x27;am &#123;age&#125;&quot;</span>.<span class="hljs-built_in">format</span>(fname = <span class="hljs-string">&quot;Bill&quot;</span>, age = <span class="hljs-number">64</span>)<br>txt2 = <span class="hljs-string">&quot;My name is &#123;0&#125;, I&#x27;am &#123;1&#125;&quot;</span>.<span class="hljs-built_in">format</span>(<span class="hljs-string">&quot;Bill&quot;</span>,<span class="hljs-number">64</span>)<br>txt3 = <span class="hljs-string">&quot;My name is &#123;&#125;, I&#x27;am &#123;&#125;&quot;</span>.<span class="hljs-built_in">format</span>(<span class="hljs-string">&quot;Bill&quot;</span>,<span class="hljs-number">64</span>)<br><span class="hljs-built_in">print</span>(txt1)<br><span class="hljs-built_in">print</span>(txt2)<br><span class="hljs-built_in">print</span>(txt3)<br></code></pre></td></tr></table></figure><p><img src="https://img-blog.csdnimg.cn/faaee7ce38c84cb1876a8188a40dbfa4.png"></p><h3 id="3-python内置的round（）函数"><a href="#3-python内置的round（）函数" class="headerlink" title="3.python内置的round（）函数"></a>3.python内置的round（）函数</h3><p>round()如果只有一个数作为参数，不指定位数的时候，返回的是一个整数，而且是最靠近的整数。<br>一般情况是使用四舍五入的规则，但是碰到舍入的后一位为5的情况，如果要取舍的位数前的数是偶数，则直接舍弃，如果奇数则向上取舍。</p><p><img src="https://img-blog.csdnimg.cn/ac6be2bd384240a7ad6dd29403acef54.png"></p><p><img src="https://img-blog.csdnimg.cn/77512a1b6a73411b8e33e8e300fdecce.png"></p><h3 id="4-利用-math-模块里-ceil-和-floor-方法"><a href="#4-利用-math-模块里-ceil-和-floor-方法" class="headerlink" title="4.利用 math 模块里 ceil 和 floor 方法"></a>4.利用 math 模块里 ceil 和 floor 方法</h3><p>math模块的ceil(x)：取大于或者等于x的最小整数<br>math模块的floor(x)：取小于或者等于x的最大整数</p><p><img src="https://img-blog.csdnimg.cn/2c586a44b87e469686ea6d2ea0174654.png"></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>python</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>字符串输出</tag>
+      
+      <tag>混合输出</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>UTF-8是什么？</title>
+    <link href="/2022/09/06/UTF8%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F/"/>
+    <url>/2022/09/06/UTF8%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F/</url>
+    
+    <content type="html"><![CDATA[<p>最近接触到一个新名词，叫UTF-8。</p><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">&quot;UTF-8&quot;</span>&gt;</span><br></code></pre></td></tr></table></figure><p>注：上面这行代码是指定网页的编码方式为UTF-8。</p><p>用一句话说明的话，UTF-8是一种编码方式，一个字节包含8个bits。</p><p>那么，什么是编码？为什么要用这个东西？</p><h3 id="编码"><a href="#编码" class="headerlink" title="编码"></a>编码</h3><p>我们都知道人有人的语言，计算机有计算机的语言，就是机器语言，所谓的二进制，0和1，1代表有一个信号，0表示没有信号。那怎么把人的语言翻译成机器语言呢，就需要一个字典，字典就是ASCII，如下图，左边是这个行为就是编码，左边是机器可以识别的ASCII码，右面是代表的字符，比如 00100001 代表 “!”, 从左到右转换就是解码 （decode），从右到左就是编码 （encode）。</p><img src="https://pic1.zhimg.com/80/v2-abb767aae7cfbea5793b5fd219d773a0_1440w.jpg" alt="解码与编码" style="zoom:70%"><p>因为ASIIC码有8位数，每位是一个比特 (bit)，8位就是一个字节 （byte）。除了第一位是0， 其他7位都可以有0 或者 1 两个选择，所以ASCII 一共可以表示 2^7 ，也就是128个字符。包括a-z 大小写，0-9 数字 和一些标点符号等。其中真正可读的只有95 个字符，其他的都是一些控制符，比如NUL，代表NULL。</p><p>对于英语来说， ASCII 包括所有的字母了，但是对于其他的语言来说，比如汉语，当然95个字符远远不够。有人说ASCII的第一位只能是0很浪费，如果也可以是1 的话， 就会多128个组合，一共256个。然而这样也不够。</p><h3 id="多字节编码"><a href="#多字节编码" class="headerlink" title="多字节编码"></a>多字节编码</h3><p>上述编码是单字节编码， 也就是只有8个比特。如果想匹配多于256个字符的语言，一个字节显然不够，用两个字节的话，16比特，可以编码65536个字符，BIG-5就是一个双字节编码方式，它包括大多数中文繁体字，<a href="https://link.zhihu.com/?target=http://en.wikipedia.org/wiki/GB18030">GB18030</a> 则包括繁体和简体。</p><p>这样每种语言可能都有他们的编码体系，用着不同的字节，对于人和机器来说，这样都很容易混乱。所以我们有：</p><h3 id="统一编码-Unicode"><a href="#统一编码-Unicode" class="headerlink" title="统一编码 Unicode"></a>统一编码 Unicode</h3><p>Unicode又叫统一码、万国码、单一码，是一种在计算机上使用的字符编码。它为每种语言中的每个字符设定了统一并且唯一的二进制编码，以满足跨语言、跨平台进行文本转换、处理的要求。</p><p>Unicode定义了一个表， 表中为世界上每种语言中的每个字符设定了统一并且唯一的码位 （code point），以满足跨语言、跨平台进行文本转换的要求。在表示一个Unicode的字符时，通常会用“U+”然后紧接着一组十六进制的数字来表示这一个字符。</p><p>比如，<code>U+0639</code>表示阿拉伯字母<code>Ain</code>，<code>U+0041</code>表示英语的大写字母<code>A</code>，<code>U+4E25</code>表示汉字<code>严</code>。具体的符号对应表，可以查询<a href="https://www.unicode.org/">unicode.org</a>.</p><h3 id="Unicode的问题"><a href="#Unicode的问题" class="headerlink" title="Unicode的问题"></a>Unicode的问题</h3><p>需要注意的是，Unicode 只是一个符号集，它只规定了符号的二进制代码，却没有规定这个二进制代码应该如何存储。</p><p>比如，汉字<code>严</code>的 Unicode 是十六进制数<code>4E25</code>，转换成二进制数足足有15位（<code>100111000100101</code>），也就是说，这个符号的表示至少需要2个字节。表示其他更大的符号，可能需要3个字节或者4个字节，甚至更多。</p><p>这里就有两个严重的问题，第一个问题是，如何才能区别 Unicode 和 ASCII ？计算机怎么知道三个字节表示一个符号，而不是分别表示三个符号呢？第二个问题是，我们已经知道，英文字母只用一个字节表示就够了，如果 Unicode 统一规定，每个符号用三个或四个字节表示，那么每个英文字母前都必然有二到三个字节是<code>0</code>，这对于存储来说是极大的浪费，文本文件的大小会因此大出二三倍，这是无法接受的。</p><p>它们造成的结果是：1）出现了 Unicode 的多种存储方式，也就是说有许多种不同的二进制格式，可以用来表示 Unicode。2）Unicode 在很长一段时间内无法推广，直到互联网的出现。</p><h3 id="UTF-8"><a href="#UTF-8" class="headerlink" title="UTF-8"></a>UTF-8</h3><p>互联网的普及，强烈要求出现一种统一的编码方式。UTF-8 就是在互联网上使用最广的一种 Unicode 的实现方式。其他实现方式还包括 UTF-16（字符用两个字节或四个字节表示）和 UTF-32（字符用四个字节表示），不过在互联网上基本不用。<strong>重复一遍，这里的关系是，UTF-8 是 Unicode 的实现方式之一。</strong></p><p>UTF-8 最大的一个特点，就是它是一种变长的编码方式。<strong>它可以使用1~4个字节表示一个符号，根据不同的符号而变化字节长度</strong>。</p><p>UTF-8 的编码规则很简单，只有二条：</p><p>1）对于单字节的符号，字节的第一位设为<code>0</code>，后面7位为这个符号的 Unicode 码。因此对于英语字母，UTF-8 编码和 ASCII 码是相同的。</p><p>2）对于<code>n</code>字节的符号（<code>n &gt; 1</code>），第一个字节的前<code>n</code>位都设为<code>1</code>，第<code>n + 1</code>位设为<code>0</code>，后面字节的前两位一律设为<code>10</code>。剩下的没有提及的二进制位，全部为这个符号的 Unicode 码。</p><p>下表总结了编码规则，字母<code>x</code>表示可用编码的位。</p><img src="https://img-blog.csdn.net/20180306165810158"><p>跟据上表，解读 UTF-8 编码非常简单。如果一个字节的第一位是<code>0</code>，则这个字节单独就是一个字符；如果第一位是<code>1</code>，则连续有多少个<code>1</code>，就表示当前字符占用多少个字节。</p><p>下面，还是以汉字<code>严</code>为例，演示如何实现 UTF-8 编码。</p><p><code>严</code>的 Unicode 是<code>4E25</code>（<code>100111000100101</code>），根据上表，可以发现<code>4E25</code>处在第三行的范围内（<code>0000 0800 - 0000 FFFF</code>），因此<code>严</code>的 UTF-8 编码需要三个字节，即格式是<code>1110xxxx 10xxxxxx 10xxxxxx</code>。然后，从<code>严</code>的最后一个二进制位开始，依次从后向前填入格式中的<code>x</code>，多出的位补<code>0</code>。这样就得到了，<code>严</code>的 UTF-8 编码是<code>11100100 10111000 10100101</code>，转换成十六进制就是<code>E4B8A5</code>。</p><h3 id="计算机系统通用的字符编码工作方式："><a href="#计算机系统通用的字符编码工作方式：" class="headerlink" title="计算机系统通用的字符编码工作方式："></a>计算机系统通用的字符编码工作方式：</h3><p>在计算机内存中，统一使用Unicode编码，当需要保存到硬盘或者需要传输的时候，就转换为UTF-8编码。</p><p>用记事本编辑的时候，从文件读取的UTF-8字符被转换为Unicode字符到内存里，编辑完成后，保存的时候再把Unicode转换为UTF-8保存到文件：</p><img src="https://images0.cnblogs.com/blog2015/520267/201503/031443137705605.png"><p>浏览网页的时候，服务器会把动态生成的Unicode内容转换为UTF-8再传输到浏览器：</p><img src="https://images0.cnblogs.com/blog2015/520267/201503/031444068013237.png"><p>所以很多网页的源码上会有类似<code>&lt;meta charset=&quot;UTF-8&quot; /&gt;</code>的信息，表示该网页正是用的UTF-8编码。</p><h3 id="参考文章："><a href="#参考文章：" class="headerlink" title="参考文章："></a>参考文章：</h3><p>1.<a href="http://www.ruanyifeng.com/blog/2007/10/ascii_unicode_and_utf-8.html">字符编码笔记：ASCII，Unicode 和 UTF-8 - 阮一峰的网络日志 (ruanyifeng.com)</a></p><p>2.<a href="https://zhuanlan.zhihu.com/p/137875615">UTF-8 到底是什么意思？unicode编码简介 - 知乎 (zhihu.com)</a></p><p>3.<a href="https://www.cnblogs.com/yuguangchuan/p/4310952.html#:~:text=%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E9%80%9A%E7%94%A8%E7%9A%84%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81%E5%B7%A5%E4%BD%9C%E6%96%B9%E5%BC%8F%EF%BC%9A,%E5%9C%A8%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%86%85%E5%AD%98%E4%B8%AD%EF%BC%8C%E7%BB%9F%E4%B8%80%E4%BD%BF%E7%94%A8Unicode%E7%BC%96%E7%A0%81%EF%BC%8C%E5%BD%93%E9%9C%80%E8%A6%81%E4%BF%9D%E5%AD%98%E5%88%B0%E7%A1%AC%E7%9B%98%E6%88%96%E8%80%85%E9%9C%80%E8%A6%81%E4%BC%A0%E8%BE%93%E7%9A%84%E6%97%B6%E5%80%99%EF%BC%8C%E5%B0%B1%E8%BD%AC%E6%8D%A2%E4%B8%BAUTF-8%E7%BC%96%E7%A0%81%E3%80%82">三种常见字符编码简介：ASCII、Unicode和UTF-8 - JRSmith - 博客园 (cnblogs.com)</a></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>计算机基础</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>字符编码</tag>
+      
+      <tag>UTF-8</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Web-神奇的meta</title>
+    <link href="/2022/09/06/Web-%E7%A5%9E%E5%A5%87%E7%9A%84meta/"/>
+    <url>/2022/09/06/Web-%E7%A5%9E%E5%A5%87%E7%9A%84meta/</url>
+    
+    <content type="html"><![CDATA[<h2 id="meta"><a href="#meta" class="headerlink" title="meta"></a>meta</h2><p><code>&lt;meta&gt;</code>标签用于描述页面内容，关键词，作者，最新修订时间以及其它元信息。</p><p>元信息可以被浏览器（指导它如何加载和显示页面）所使用，也可以有利于搜索引擎收录页面（指定关键词）。</p><p>HTML5 通过 <code>&lt;meta&gt;</code> 标签引入一个新的方法，让网页尺寸实现自适应。</p><p>值得注意的是：</p><p><code>&lt;meta&gt;</code>标签永远位于<code>&lt;head&gt;</code>标签内部。</p><p><code>content</code> 属性必须和 <code>name</code> 或 <code>http-equiv</code> 属性共存亡。</p><h4 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h4><table><thead><tr><th>属性</th><th>值</th><th>描述</th></tr></thead><tbody><tr><td>charset</td><td>character_set</td><td>指定 HTML 文档的编码。</td></tr><tr><td>content</td><td>text</td><td>指定与 <code>http-equiv</code> 或 <code>name</code> 属性相关的值。</td></tr><tr><td>http-equiv</td><td>content-type、default-style、refresh</td><td>content-type：另一种声明 HTML 文档作用字符编码的方法（<code>&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html charset=UTF-8&quot;&gt;</code>）。 default-style：指定页面优先使用的样式表。 refresh：以秒为单位指定一个时间间隔，在此时间过去之后将从服务器重新载入当前页面。也可以另行指定一个 URL 让浏览器载入。</td></tr><tr><td>name</td><td>application-name、author、description、generator、keywords、viewport</td><td>application-name：当前页所属 Web 应用系统的名称。 author：当前页的作者名。 description：当前页的内容描述。 generator：用来生成 HTML 的软件名称。 keywords：当前页的关键词。 viewport：网页尺寸自适应。</td></tr></tbody></table><h4 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h4><p>指定网页编码：</p><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">&quot;UTF-8&quot;</span>&gt;</span><br></code></pre></td></tr></table></figure><p>为搜索引擎提供关键词：</p><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;keywords&quot;</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;north,Web,随便写写&quot;</span>&gt;</span><br></code></pre></td></tr></table></figure><p>描述网页内容：</p><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;description&quot;</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;那些飘散在生活里的细节，总是让我无比感动&quot;</span>&gt;</span><br></code></pre></td></tr></table></figure><p>网页自适应：</p><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;viewport&quot;</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;width=device-width, initial-scale=1.0&quot;</span>&gt;</span><br></code></pre></td></tr></table></figure><p>自适应前：</p><img src="https://img-blog.csdnimg.cn/0cc61ad1845e410fa27fdcc197b740d3.jpeg" alt="自适应前" style="zoom:50%;" /><p>自适应后：</p><img src="https://img-blog.csdnimg.cn/95ddbc6e387b46b8a322ba9e753d6f7d.jpeg" alt="自适应后" style="zoom:50%;" /><p>每5s刷新一下浏览器并跳转到指定界面</p><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">http-equiv</span>=<span class="hljs-string">&quot;reflsh&quot;</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;5,https://to-north.github.io&quot;</span>&gt;</span><br></code></pre></td></tr></table></figure><p>注：基本内容来自小甲鱼<a href="https://ilovefishc.com/">https://ilovefishc.com</a></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Web</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>meta</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>《自在独行》-写给每个孤独的行路人</title>
+    <link href="/2022/09/06/%E3%80%8A%E8%87%AA%E5%9C%A8%E7%8B%AC%E8%A1%8C%E3%80%8B-%E5%86%99%E7%BB%99%E6%AF%8F%E4%B8%AA%E5%AD%A4%E7%8B%AC%E7%9A%84%E8%A1%8C%E8%B7%AF%E4%BA%BA/"/>
+    <url>/2022/09/06/%E3%80%8A%E8%87%AA%E5%9C%A8%E7%8B%AC%E8%A1%8C%E3%80%8B-%E5%86%99%E7%BB%99%E6%AF%8F%E4%B8%AA%E5%AD%A4%E7%8B%AC%E7%9A%84%E8%A1%8C%E8%B7%AF%E4%BA%BA/</url>
+    
+    <content type="html"><![CDATA[<h2 id="《自在独行》—写给每个孤独的行路人"><a href="#《自在独行》—写给每个孤独的行路人" class="headerlink" title=" 《自在独行》—写给每个孤独的行路人"></a><center> <strong>《自在独行》—写给每个孤独的行路人</strong></center></h2><p style="text-indent:2em">自己读贾平凹先生的《自在独行》纯属偶然，只是有天自己在知乎冲浪，看到这样一句话：“人最大的“任性”就是不顾一切坚持做自己喜欢的事，只有这样，人才可以说，我这一生不虚此行。”便觉得这本书，我是一定要认真研读的。</p><p style="text-indent:2em">平凹先生素来喜静，最怕有人来敲他的房门。让他觉得自在的，要么是行走于西北的大地，要么是隐居在自己的书房。先生其实也喜欢热闹，只是先生的热闹并不是灯火灿烂，而是内心的安宁与独行的自在。</p><p style="text-indent:2em">这样看来，自己的习性与平凹先生倒是有点相似。我自己初中寄宿开始，便最怕周末放假回家。每次从村头到家里那一段路，让我甚是头疼。我是最不喜好与村里人打招呼的，可偏偏这条路上，到处是认识我的。所以每次走这段路，总是低头、快步、迅速离开，生怕有人注意到我，不然的话，免不了又要听他们说个好几分钟的“寒暄”。</p><p style="text-indent:2em">舍弃了外人对自己无意义的评价，却收获了自己内心的清净，怎么想都是自己“赚大了”。可也正如书中所说：“舍舍得得、得得舍舍就充满在我们琐碎的日常生活中，演绎着成功与失败的故事啊，舍得实在是一种哲学，也是一种艺术。”</p><p style="text-indent:2em">贾平凹在书中，写母亲、忆父亲，他的心是细腻的、柔软的、敏感的。“人愈走完他的一生，愈归复于黄土的颜色。”贾平凹透彻人从生到死的走向，在这出山出水出人出物的地方，他亦出了文章，流泻出绵绵细雨的感情……这本书写情感、聊爱好、谈社会、说人生。有俗世的智慧，也有生活的趣味。</p><p style="text-indent:2em">我本是来找寻孤独的真谛，却被先生的文章带到了他的生活里。以前总是认为：逃避了世俗的喧嚣，才能让自己内心平静下来，想想自己从哪里来，到哪里去。可平凹先生却告诉我：“真正的从容，不是躲避纷争与喧嚣，而是平静的面对困惑与烦恼。”</p><p style="text-indent:2em">对于匆匆的路人，平凹先生的这部文集只是用来附庸风雅的玩物。但这本书却要写给生命的行者。独行是一场心灵的隐居，真正的洒脱来自内心的安宁。如果你也想懂得孤独的真义，在生活里多一些从容潇洒，那么也欢迎你走进贾平凹的独行世界，因为它属于每个孤独的行路人。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>随便写写</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>若有所思</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  
+</search>
